@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game Development</title>
+    <style>
+        body, canvas {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas name="game"></canvas>
+    <script src="game.js"></script>
+    
+    <script>
+        let canvas = document.querySelector('canvas[name="game"]');
+        let context = canvas.getContext('2d');
+
+        (function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            window.onresize = function () {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            context.fillStyle = "blue";
+
+            function redraw() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                if (typeof draw === 'function') {
+                    draw();
+                }
+                setTimeout(redraw, 10);
+            }
+            function callupdate() {
+                if (typeof update === 'function') {
+                    update();
+                }
+                setTimeout(callupdate, 10);
+            }
+
+            window.addEventListener('keyup', function (e) {
+                e.preventDefault();
+                if (typeof keyup === 'function') {
+                    keyup(e.keyCode);
+                }
+            });
+            window.addEventListener('keydown', function (e) {
+                if (e.keyCode === 116 || e.keyCode === 123) {
+                    return true;
+                }
+                e.preventDefault();
+                if (typeof keydown === 'function') {
+                    keydown(e.keyCode);
+                }
+            });
+
+            redraw();
+            callupdate();
+        })();
+    </script>
+</body>
+
+</html>
