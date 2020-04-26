@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game Development</title>
+    <style>
+        body,
+        canvas {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas name="game"></canvas>
+	<script>
+        /**
+         * Game development engine
+         *
+         * @version - v1.2
+         * @author  - Mariyan Apostolov, Momchil Dilchev
+         * @since   - 04.04.2020
+         */
+        let canvas = document.querySelector('canvas[name="game"]');
+        let context = canvas.getContext('2d');
+        let images = [];
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        window.onresize = function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        context.fillStyle = "blue";
+        function isColliding(Ax, Ay, Awidth, Aheight,Bx, By, Bwidth, Bheight) {
+            if(Bx <= Ax + Awidth) {
+                if(Ax <= Bx + Bwidth) {
+                    if(By <= Ay + Aheight) {
+                        if(Ay <= By + Bheight) {
+                            return 1;
+                        }
+                    }
+                }
+            } return 0;
+        };
+        function getRandomTo(upTo) {
+            return Math.floor(Math.random() * upTo);
+        }
+    </script>
+    <script src="game.js"></script>
+
+    <script>
+        function drawImage(src, x, y, sX, sY) {
+            let image = new Image();
+            image.src = src;
+            image.onload = function () {
+                images.push({
+                    img: this,
+                    x: x,
+                    y: y,
+                    sizeX: (sX ? sX : canvas.width),
+                    sizeY: (sY ? sY : canvas.height)
+                });
+            }
+        }
+        (function () {
+            function dImage() {
+                let currentImage;
+                for (let i = 0; i < images.length; i++) {
+                    currentImage = images[i];
+                    context.drawImage(currentImage.img, currentImage.x, currentImage.y, currentImage.sizeX, currentImage.sizeY);
+                }
+                images = [];
+            }
+
+            function redraw() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                if (typeof draw === 'function') {
+                    dImage();
+                    draw();
+                }
+                setTimeout(redraw, 10);
+            }
+            function callupdate() {
+                if (typeof update === 'function') {
+                    update();
+                }
+                setTimeout(callupdate, 10);
+            }
+
+            window.addEventListener('keyup', function (e) {
+                e.preventDefault();
+                if (typeof keyup === 'function') {
+                    keyup(e.keyCode);
+                }
+            });
+            window.addEventListener('keydown', function (e) {
+                if (e.keyCode === 116 || e.keyCode === 123) {
+                    return true;
+                }
+                e.preventDefault();
+                if (typeof keydown === 'function') {
+                    keydown(e.keyCode);
+                }
+            });
+
+            redraw();
+            callupdate();
+        })();
+    </script>
+</body>
+
+</html>
