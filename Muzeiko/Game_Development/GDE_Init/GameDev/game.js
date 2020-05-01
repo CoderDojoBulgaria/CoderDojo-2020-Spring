@@ -1,4 +1,4 @@
-let mX = 0, mY = 0;
+let mX = 0, mY = 0, eX = canvas.width / 2, eY = canvas.height - 100;
 
 function draw() {
     drawImage('Images/spgirl-jun.jpg', 0, 0);
@@ -18,9 +18,15 @@ function draw() {
     context.font = '30px Verdana';
     context.fillStyle = 'black';
     context.fillText('Hello GameDev!', 100, 200);
+
+    context.fillStyle = 'pink';
+    context.scale(1, 1);
+    context.strokeRect(eX, eY, 40, 40);
 }
 
 function update() {
+    eX = mouseX;
+    eY = mouseY;
 }
 
 function keydown(key) {

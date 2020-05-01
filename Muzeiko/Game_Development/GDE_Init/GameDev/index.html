@@ -22,12 +22,14 @@
          * Game development engine
          *
          * @version - v1.2
-         * @author  - Mariyan Apostolov, Momchil Dilchev
+         * @author  - Mariyan Apostolov, Stefan Donchev, Momchil Dilchev, Gabriela Petrova
          * @since   - 04.04.2020
          */
         let canvas = document.querySelector('canvas[name="game"]');
         let context = canvas.getContext('2d');
-        let images = [];
+        let images = [],
+            mouseX,
+            mouseY;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         window.onresize = function () {
@@ -105,6 +107,10 @@
                 if (typeof keydown === 'function') {
                     keydown(e.keyCode);
                 }
+            });
+            window.addEventListener('mousemove', function (e) {
+                mouseX = e.x;
+                mouseY = e.y;
             });
 
             redraw();
