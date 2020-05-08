@@ -22,7 +22,7 @@
          * Game development engine
          *
          * @version - v1.2
-         * @author  - Mariyan Apostolov, Stefan Donchev, Momchil Dilchev, Gabriela Petrova
+         * @author  - Mariyan Apostolov, Stefan Donchev, Momchil Dilchev, Gabriela Petrova, Krum Sultov
          * @since   - 04.04.2020
          */
         let canvas = document.querySelector('canvas[name="game"]');
@@ -50,6 +50,9 @@
         };
         function getRandomTo(upTo) {
             return Math.floor(Math.random() * upTo);
+        }
+        function getRandomFromTo(min, max) {
+            return Math.floor(Math.random() * (max - min) ) + min;
         }
     </script>
     <script src="game.js"></script>
@@ -112,7 +115,11 @@
                 mouseX = e.x;
                 mouseY = e.y;
             });
-
+            document.addEventListener("mousedown", function (e) {
+                if (typeof mousedown === 'function') {
+                    mousedown();
+                }
+            });
             redraw();
             callupdate();
         })();
